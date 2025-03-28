@@ -1,12 +1,12 @@
-const Category = require('../models/categoryModel');
+const Category = require('../models/Category');
 
-// Fetch all categories
+// Get all categories
 const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find(); // Retrieve all categories
-        res.status(200).json(categories);
+        const categories = await Category.find();
+        res.json(categories);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching categories", error: error.message });
+        res.status(500).json({ error: 'Server error' });
     }
 };
 
@@ -14,11 +14,11 @@ const getCategories = async (req, res) => {
 const createCategory = async (req, res) => {
     try {
         const { name, description } = req.body;
-        const newCategory = new Category({ name, description });
-        await newCategory.save();
-        res.status(201).json(newCategory);
+        const category = new Category({ name, description });
+        await category.save();
+        res.status(201).json(category);
     } catch (error) {
-        res.status(500).json({ message: "Error creating category", error: error.message });
+        res.status(400).json({ error: 'Invalid data' });
     }
 };
 
